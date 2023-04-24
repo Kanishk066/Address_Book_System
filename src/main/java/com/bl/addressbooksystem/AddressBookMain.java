@@ -13,7 +13,8 @@ public class AddressBookMain {
             System.out.println("1. Add Contact");
             System.out.println("2. Display Contact");
             System.out.println("3. Edit Contact");
-            System.out.println("4. Exit");
+            System.out.println("4. Delete Contact");
+            System.out.println("5. Exit");
 
             choice = sc.nextInt();
 
@@ -30,7 +31,14 @@ public class AddressBookMain {
                     String lastName = sc.next();
                     obj.editContactByName(firstName, lastName);
                 }
-                case 4 -> System.exit(0);
+                case 4 -> {
+                    System.out.println("Enter the First Name of Contact to Delete:");
+                    String deleteFirstName = sc.next();
+                    System.out.println("Enter the Last Name of Contact to Delete:");
+                    String deleteLastName = sc.next();
+                    obj.deleteContact(deleteFirstName, deleteLastName);
+                }
+                case 5 -> System.exit(0);
                 default -> System.out.println("Invalid choice");
             }
         } while (choice != 4);

@@ -1,4 +1,5 @@
 package com.bl.addressbooksystem;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class AddressBookClass {
@@ -64,6 +65,23 @@ public class AddressBookClass {
     Contacts display()
     {
         return obj;
+    }
+    // Delete a contact
+    void deleteContact(String firstName, String lastName){
+        if(firstName.equals(obj.getFirstName()) && lastName.equals(obj.getLastName())){
+            obj.setFirstName("");
+            obj.setLastName("");
+            obj.setAddress("");
+            obj.setCity("");
+            obj.setState("");
+            obj.setZip(0);
+            obj.setPhoneNumber(0);
+            obj.setEmailAddress("");
+            System.out.println("Contact deleted successfully!");
+        }
+        else{
+            System.out.println("Contact not found!");
+        }
     }
 }
 
