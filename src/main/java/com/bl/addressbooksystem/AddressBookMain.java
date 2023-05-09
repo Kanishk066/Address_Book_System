@@ -11,7 +11,7 @@ public class AddressBookMain {
         do {
             System.out.println("Enter your choice:");
             System.out.println("1. Add Contact");
-            System.out.println("2. Display Contact");
+            System.out.println("2. Display Contacts");
             System.out.println("3. Edit Contact");
             System.out.println("4. Delete Contact");
             System.out.println("5. Exit");
@@ -19,29 +19,34 @@ public class AddressBookMain {
             choice = sc.nextInt();
 
             switch (choice) {
-                case 1 -> obj.addContacts();
-                case 2 -> {
-                    Contacts contacts = obj.display();
-                    System.out.println(contacts.toString());
-                }
-                case 3 -> {
+                case 1:
+                    obj.addContacts();
+                    break;
+                case 2:
+                    obj.displayAllContacts();
+                    break;
+                case 3:
                     System.out.println("Enter the First Name of Contact to Edit:");
                     String firstName = sc.next();
                     System.out.println("Enter the Last Name of Contact to Edit:");
                     String lastName = sc.next();
                     obj.editContactByName(firstName, lastName);
-                }
-                case 4 -> {
+                    break;
+                case 4:
                     System.out.println("Enter the First Name of Contact to Delete:");
                     String deleteFirstName = sc.next();
                     System.out.println("Enter the Last Name of Contact to Delete:");
                     String deleteLastName = sc.next();
                     obj.deleteContact(deleteFirstName, deleteLastName);
-                }
-                case 5 -> System.exit(0);
-                default -> System.out.println("Invalid choice");
+                    break;
+                case 5:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    break;
             }
-        } while (choice != 4);
+        } while (choice != 5);
     }
 }
 
