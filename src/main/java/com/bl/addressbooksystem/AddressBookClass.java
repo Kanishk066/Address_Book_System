@@ -1,6 +1,5 @@
 package com.bl.addressbooksystem;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Scanner;
 
 public class AddressBookClass {
