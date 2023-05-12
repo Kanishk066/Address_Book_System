@@ -2,6 +2,7 @@ package com.bl.addressbooksystem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+
 public class AddressBookMain {
     public static void main(String[] args) {
         System.out.println("Welcome To Address Book System Program");
@@ -53,7 +54,7 @@ public class AddressBookMain {
         } while (choice != 4);
     }
 
-    private static void operateOnAddressBook(AddressBookClass addressBook) {
+     static void operateOnAddressBook(AddressBookClass addressBook) {
         Scanner sc = new Scanner(System.in);
         int choice;
         do {
@@ -62,7 +63,10 @@ public class AddressBookMain {
             System.out.println("2. Display Contact");
             System.out.println("3. Edit Contact");
             System.out.println("4. Delete Contact");
-            System.out.println("5. Exit");
+            System.out.println("5. Search CityorState");
+            System.out.println("6. View by the Name of the City ");
+            System.out.println("7. View by the Name of the State");
+            System.out.println("8. Exit");
 
             choice = sc.nextInt();
 
@@ -86,8 +90,7 @@ public class AddressBookMain {
                     String deleteLastName = sc.next();
                     addressBook.deleteContact(deleteFirstName, deleteLastName);
                 }
-                case 5 -> System.exit(0);
-                case 6 -> {
+                case 5 -> {
                     System.out.println("Enter the name of the city or state:");
                     String cityOrState = sc.next();
                     List<Contacts> result = addressBook.searchByCityOrState(cityOrState);
@@ -100,9 +103,34 @@ public class AddressBookMain {
                         }
                     }
                 }
+                case 6 -> {
+                    System.out.println("Enter the name of the city:");
+                    String city = sc.next();
+                    List<Contacts> contactsInCity = addressBook.getContactsByCity(city).stream().filter(contact -> contact.getCity().equalsIgnoreCase(city)).toList();
+                    if (contactsInCity.isEmpty()) {
+                        System.out.println("No contacts found in " + city);
+                    } else {
+                        System.out.println("Contacts in " + city + ":");
+                        contactsInCity.forEach(contact -> System.out.println(contact.toString()));
+                    }
+                }
+                case 7 -> {
+                    System.out.println("Enter the name of the state:");
+                    String state = sc.next();
+                    List<Contacts> result = addressBook.getContactsByState(state);
+                    if (result.isEmpty()) {
+                        System.out.println("No contacts found in " + state);
+                    } else {
+                        System.out.println("Contacts in " + state + ":");
+                        for (Contacts contact : result) {
+                            System.out.println(contact.toString());
+                        }
+                    }
+                }
+                case 8 -> System.exit(0);
                 default -> System.out.println("Invalid choice");
             }
-        } while (choice != 5);
+        } while (choice != 8);
     }
     }
 

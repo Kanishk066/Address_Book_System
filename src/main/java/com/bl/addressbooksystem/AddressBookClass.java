@@ -4,6 +4,19 @@ import java.util.stream.Collectors;
 public class AddressBookClass {
     ArrayList<Contacts> contactList = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
+
+    // View persons by city using Java Streams
+    public List<Contacts> getContactsByCity(String city) {
+        return contactList.stream()
+                .filter(contact -> contact.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
+    }
+
+    // View persons by state using Java Streams
+    public List<Contacts> getContactsByState(String state) {
+        return contactList.stream()
+                .filter(contact -> contact.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
+    }
+
     public List<Contacts> searchByCityOrState(String cityOrState) {
         return contactList.stream()
                 .filter(contact -> contact.getCity().equalsIgnoreCase(cityOrState) ||
