@@ -1,10 +1,15 @@
 package com.bl.addressbooksystem;
 import java.util.*;
-import java.util.stream.*;
 import java.util.stream.Collectors;
 public class AddressBookClass {
     ArrayList<Contacts> contactList = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
+    public List<Contacts> searchByCityOrState(String cityOrState) {
+        return contactList.stream()
+                .filter(contact -> contact.getCity().equalsIgnoreCase(cityOrState) ||
+                        contact.getState().equalsIgnoreCase(cityOrState))
+                .collect(Collectors.toList());
+    }
     public void addContacts() {
         System.out.println("Enter the First Name:");
         String firstName = sc.next();

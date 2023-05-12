@@ -1,8 +1,7 @@
 package com.bl.addressbooksystem;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-
 public class AddressBookMain {
     public static void main(String[] args) {
         System.out.println("Welcome To Address Book System Program");
@@ -88,6 +87,19 @@ public class AddressBookMain {
                     addressBook.deleteContact(deleteFirstName, deleteLastName);
                 }
                 case 5 -> System.exit(0);
+                case 6 -> {
+                    System.out.println("Enter the name of the city or state:");
+                    String cityOrState = sc.next();
+                    List<Contacts> result = addressBook.searchByCityOrState(cityOrState);
+                    if (result.isEmpty()) {
+                        System.out.println("No contacts found in " + cityOrState);
+                    } else {
+                        System.out.println("Contacts in " + cityOrState + ":");
+                        for (Contacts contact : result) {
+                            System.out.println(contact.toString());
+                        }
+                    }
+                }
                 default -> System.out.println("Invalid choice");
             }
         } while (choice != 5);
