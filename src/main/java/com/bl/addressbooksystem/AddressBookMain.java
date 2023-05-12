@@ -1,6 +1,7 @@
 package com.bl.addressbooksystem;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBookMain {
     public static void main(String[] args) {
@@ -91,5 +92,5 @@ public class AddressBookMain {
             }
         } while (choice != 5);
     }
-}
+    }
 

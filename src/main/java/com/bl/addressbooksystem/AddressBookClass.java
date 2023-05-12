@@ -1,105 +1,126 @@
 package com.bl.addressbooksystem;
-import java.util.ArrayList;
-import java.util.Scanner;
-
+import java.util.*;
+import java.util.stream.*;
+import java.util.stream.Collectors;
 public class AddressBookClass {
     ArrayList<Contacts> contactList = new ArrayList<>();
-
+    Scanner sc = new Scanner(System.in);
     public void addContacts() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter First Name:");
+        System.out.println("Enter the First Name:");
         String firstName = sc.next();
-        System.out.println("Enter Last Name:");
+        System.out.println("Enter the Last Name:");
         String lastName = sc.next();
-        System.out.println("Enter Address:");
+        System.out.println("Enter the Address:");
         String address = sc.next();
-        System.out.println("Enter City:");
+        System.out.println("Enter the City:");
         String city = sc.next();
-        System.out.println("Enter State:");
+        System.out.println("Enter the State:");
         String state = sc.next();
-        System.out.println("Enter Zip Code:");
+        System.out.println("Enter the Zip Code:");
         int zip = sc.nextInt();
-        System.out.println("Enter Phone Number:");
-        long phoneNumber = sc.nextLong();
-        System.out.println("Enter Email Address:");
-        String emailAddress = sc.next();
+        System.out.println("Enter the Phone Number:");
+        int phoneNo = sc.nextInt();
+        System.out.println("Enter the Email:");
+        String email = sc.next();
 
-        Contacts newContact = new Contacts(firstName, lastName, address, city, state, zip, phoneNumber, emailAddress);
-        contactList.add(newContact);
+        Contacts newContact = new Contacts(firstName, lastName, address, city, state, zip, phoneNo , email);
+        // Check for duplicate entry
+        boolean duplicateEntry = contactList.stream()
+                .anyMatch(contact -> contact.firstName.equalsIgnoreCase(firstName)
+                        && contact.lastName.equalsIgnoreCase(lastName));
+        if (duplicateEntry) {
+            System.out.println("Contact already exists!");
+        } else {
+            contactList.add(newContact);
+            System.out.println("Contact added successfully!");
+        }
     }
 
     public Contacts display() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter the First Name of Contact to Display:");
-        String firstName = sc.next();
+        String displayFirstName = sc.next();
         System.out.println("Enter the Last Name of Contact to Display:");
-        String lastName = sc.next();
-
-        for (Contacts contacts : contactList) {
-            if (contacts.getFirstName().equals(firstName) && contacts.getLastName().equals(lastName)) {
-                return contacts;
-            }
+        String displayLastName = sc.next();
+        Contacts resultContact = null;
+        // Search for contact by name
+        Optional<Contacts> optionalContact = contactList.stream()
+                .filter(contact -> contact.firstName.equalsIgnoreCase(displayFirstName)
+                        && contact.lastName.equalsIgnoreCase(displayLastName))
+                .findFirst();
+        if (optionalContact.isPresent()) {
+            resultContact = optionalContact.get();
+            System.out.println("Contact Found!");
+        } else {
+            System.out.println("Contact not found!");
         }
-        System.out.println("Contact not found!");
-        return null;
+        return resultContact;
     }
-
-    public void displayAllContacts() {
-        for (Contacts contacts : contactList) {
-            System.out.println(contacts.toString());
-        }
-    }
-
     public void editContactByName(String firstName, String lastName) {
-        for (Contacts contact : contactList) {
-            if (contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
-                Scanner sc = new Scanner(System.in);
-                System.out.println("Enter updated address:");
-                String address = sc.nextLine();
-                contact.setAddress(address);
-
-                System.out.println("Enter updated city:");
-                String city = sc.nextLine();
-                contact.setCity(city);
-
-                System.out.println("Enter updated state:");
-                String state = sc.nextLine();
-                contact.setState(state);
-
-                System.out.println("Enter updated zip code:");
-                int zip = sc.nextInt();
-                contact.setZip(zip);
-
-                System.out.println("Enter updated phone number:");
-                long phoneNumber = sc.nextLong();
-                contact.setPhoneNumber(phoneNumber);
-
-                System.out.println("Enter updated email address:");
-                String emailAddress = sc.next();
-                contact.setEmailAddress(emailAddress);
-
-                System.out.println("Contact details updated successfully.");
-                return;
-            }
+        Optional<Contacts> optionalContact = contactList.stream()
+                .filter(contact -> contact.firstName.equalsIgnoreCase(firstName)
+                        && contact.lastName.equalsIgnoreCase(lastName))
+                .findFirst();
+        if (optionalContact.isPresent()){
+            Contacts contact = optionalContact.get();
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter new First Name (or press enter to skip):");
+            String newFirstName = sc.nextLine();
+            if (!newFirstName.isEmpty()) {
+                contact.setFirstName(newFirstName);
         }
-        System.out.println("No contact found with the given first name and last name.");
+            System.out.println("Enter new Last Name (or press enter to skip):");
+            String newLastName = sc.nextLine();
+            if (!newLastName.isEmpty()) {
+                contact.setLastName(newLastName);
+            }
+            System.out.println("Enter new Address (or press enter to skip):");
+            String newAddress = sc.nextLine();
+            if (!newAddress.isEmpty()) {
+                contact.setAddress(newAddress);
+            }
+            System.out.println("Enter new City (or press enter to skip):");
+            String newCity = sc.nextLine();
+            if (!newCity.isEmpty()) {
+                contact.setCity(newCity);
+            }
+            System.out.println("Enter new State (or press enter to skip):");
+            String newState = sc.nextLine();
+            if (!newState.isEmpty()) {
+                contact.setState(newState);
+            }
+            System.out.println("Enter new Zip Code (or press enter to skip):");
+            String newZipCode = sc.nextLine();
+            if (!newZipCode.isEmpty()) {
+                contact.setZip(sc.nextInt());
+            }
+            System.out.println("Enter new Phone Number (or press enter to skip):");
+            String newPhoneNumber = sc.nextLine();
+            if (!newPhoneNumber.isEmpty()) {
+                contact.setPhoneNumber(sc.nextInt());
+            }
+            System.out.println("Enter new Email (or press enter to skip):");
+            String newEmail = sc.nextLine();
+            if (!newEmail.isEmpty()) {
+                contact.setEmailAddress(newEmail);
+            }
+            System.out.println("Contact edited successfully.");
+        } else {
+            System.out.println("Contact not found.");
+        }
     }
 
     // Delete a contact
     public void deleteContact(String deleteFirstName, String deleteLastName) {
-        int index = -1;
-        for (int i = 0; i < contactList.size(); i++) {
-            Contacts contact = contactList.get(i);
-            if (contact.getFirstName().equals(deleteFirstName) && contact.getLastName().equals(deleteLastName)) {
-                index = i;
-                break;
-            }
-        }
-        if (index == -1) {
-            System.out.println("Contact not found.");
-        } else {
-            contactList.remove(index);
+        Optional<Contacts> optionalContact = contactList.stream()
+                .filter(contact -> contact.firstName.equalsIgnoreCase(deleteFirstName)
+                        && contact.lastName.equalsIgnoreCase(deleteLastName))
+                .findFirst();
+        if (optionalContact.isPresent()) {
+            Contacts contactToDelete = optionalContact.get();
+            contactList.remove(contactToDelete);
             System.out.println("Contact deleted successfully.");
+        } else {
+            System.out.println("Contact not found.");
         }
     }
 }
