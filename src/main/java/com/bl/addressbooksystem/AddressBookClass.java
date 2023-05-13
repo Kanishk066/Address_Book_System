@@ -101,45 +101,57 @@ public class AddressBookClass {
         }
     }
 
-            public void deleteContact (String firstName, String lastName){
-                boolean flag = false;
-                for (Contacts c : contactsList) {
-                    if (c.getFirstName().equalsIgnoreCase(firstName) && c.getLastName().equalsIgnoreCase(lastName)) {
-                        flag = true;
-                        contactsList.remove(c);
-                        break;
-                    }
-                }
-                if (!flag) {
-                    System.out.println("Contact not found");
-                } else {
-                    System.out.println("Contact deleted successfully");
-                }
+    public void deleteContact(String firstName, String lastName) {
+        boolean flag = false;
+        for (Contacts c : contactsList) {
+            if (c.getFirstName().equalsIgnoreCase(firstName) && c.getLastName().equalsIgnoreCase(lastName)) {
+                flag = true;
+                contactsList.remove(c);
+                break;
             }
+        }
+        if (!flag) {
+            System.out.println("Contact not found");
+        } else {
+            System.out.println("Contact deleted successfully");
+        }
+    }
 
-            // View persons by city using Java Streams
-            public List<Contacts> getContactsByCity(String city) {
-                return contactsList.stream().filter(contact -> contact.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
-            }
+    // View persons by city using Java Streams
+    public List<Contacts> getContactsByCity(String city) {
+        return contactsList.stream().filter(contact -> contact.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
+    }
 
-            // View persons by state using Java Streams
-            public List<Contacts> getContactsByState(String state) {
-                return contactsList.stream().filter(contact -> contact.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
-            }
+    // View persons by state using Java Streams
+    public List<Contacts> getContactsByState(String state) {
+        return contactsList.stream().filter(contact -> contact.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
+    }
 
-            public List<Contacts> searchByCityOrState(String cityOrState) {
-                return contactsList.stream().filter(contact -> contact.getCity().equalsIgnoreCase(cityOrState) || contact.getState().equalsIgnoreCase(cityOrState)).collect(Collectors.toList());
-            }
+    public List<Contacts> searchByCityOrState(String cityOrState) {
+        return contactsList.stream().filter(contact -> contact.getCity().equalsIgnoreCase(cityOrState) || contact.getState().equalsIgnoreCase(cityOrState)).collect(Collectors.toList());
+    }
 
-            public void displayCountByCityAndState() {
-                System.out.println("Count by city:");
-                contactsList.stream().collect(Collectors.groupingBy(Contacts::getCity, Collectors.counting())).forEach((city, count) -> System.out.println(city + ": " + count));
-                System.out.println("Count by state:");
-                contactsList.stream().collect(Collectors.groupingBy(Contacts::getState, Collectors.counting())).forEach((state, count) -> System.out.println(state + ": " + count));
-            }
+    public void displayCountByCityAndState() {
+        System.out.println("Count by city:");
+        contactsList.stream().collect(Collectors.groupingBy(Contacts::getCity, Collectors.counting())).forEach((city, count) -> System.out.println(city + ": " + count));
+        System.out.println("Count by state:");
+        contactsList.stream().collect(Collectors.groupingBy(Contacts::getState, Collectors.counting())).forEach((state, count) -> System.out.println(state + ": " + count));
+    }
 
-            public List<Contacts> sortContactsByName() {
-               return contactsList.stream().sorted(Comparator.comparing(Contacts::getFirstName)).collect(Collectors.toList());
+    public List<Contacts> sortContactsByName() {
+        return contactsList.stream().sorted(Comparator.comparing(Contacts::getFirstName)).collect(Collectors.toList());
+    }
+
+    public List<Contacts> sortContactsByCity() {
+        return contactsList.stream().sorted(Comparator.comparing(Contacts::getCity)).collect(Collectors.toList());
+    }
+
+    public List<Contacts> sortContactsByState() {
+        return contactsList.stream().sorted(Comparator.comparing(Contacts::getState)).collect(Collectors.toList());
+    }
+
+    public List<Contacts> sortContactsByZip() {
+        return contactsList.stream().sorted(Comparator.comparing(Contacts::getZip)).collect(Collectors.toList());
     }
 }
 

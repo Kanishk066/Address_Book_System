@@ -66,8 +66,11 @@ public class AddressBookMain {
             System.out.println("6. View by the Name of the City ");
             System.out.println("7. View by the Name of the State");
             System.out.println("8. Display Count by City or State ");
-            System.out.println("10.Sort by Person's Name ");
-            System.out.println("9. Exit");
+            System.out.println("9.Sort by Person's Name ");
+            System.out.println("10.Sort by Zip Code ");
+            System.out.println("11.Sort by City ");
+            System.out.println("12.Sort by State ");
+            System.out.println("13. Exit");
 
             choice = sc.nextInt();
 
@@ -133,12 +136,34 @@ public class AddressBookMain {
                     List<Contacts> sortedContactsByName = addressBook.sortContactsByName();
                     System.out.println("Contacts sorted by name:");
                     sortedContactsByName.forEach(System.out::println);
-                    break;
                 }
-                case 10 -> System.exit(0);
+                case 10 -> {
+                    List<Contacts> sortedByZip = addressBook.sortContactsByZip();
+                    System.out.println("Sorted by zip code:");
+                    for (Contacts c : sortedByZip) {
+                        System.out.println(c);
+                    }
+                }
+                case 11 -> {
+                    // Sort by city
+                    List<Contacts> sortedByCity = addressBook.sortContactsByCity();
+                    System.out.println("\nSorted by city:");
+                    for (Contacts c : sortedByCity) {
+                        System.out.println(c);
+                    }
+                }
+                case 12 -> {
+                    // Sort by state
+                    List<Contacts> sortedByState = addressBook.sortContactsByState();
+                    System.out.println("\nSorted by state:");
+                    for (Contacts c : sortedByState) {
+                        System.out.println(c);
+                    }
+                }
+                case 13 -> System.exit(0);
                 default -> System.out.println("Invalid choice");
             }
-        } while (choice != 10);
+        } while (choice != 13);
     }
     }
 
