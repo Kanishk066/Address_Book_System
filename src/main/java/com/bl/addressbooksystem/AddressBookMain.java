@@ -2,7 +2,6 @@ package com.bl.addressbooksystem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
 public class AddressBookMain {
     public static void main(String[] args) {
         System.out.println("Welcome To Address Book System Program");
@@ -63,10 +62,11 @@ public class AddressBookMain {
             System.out.println("2. Display Contact");
             System.out.println("3. Edit Contact");
             System.out.println("4. Delete Contact");
-            System.out.println("5. Search CityorState");
+            System.out.println("5. Search City or State");
             System.out.println("6. View by the Name of the City ");
             System.out.println("7. View by the Name of the State");
-            System.out.println("8.Display Count by City or State ");
+            System.out.println("8. Display Count by City or State ");
+            System.out.println("10.Sort by Person's Name ");
             System.out.println("9. Exit");
 
             choice = sc.nextInt();
@@ -129,10 +129,16 @@ public class AddressBookMain {
                     }
                 }
                 case 8 -> addressBook.displayCountByCityAndState();
-                case 9 -> System.exit(0);
+                case 9 -> {
+                    List<Contacts> sortedContactsByName = addressBook.sortContactsByName();
+                    System.out.println("Contacts sorted by name:");
+                    sortedContactsByName.forEach(System.out::println);
+                    break;
+                }
+                case 10 -> System.exit(0);
                 default -> System.out.println("Invalid choice");
             }
-        } while (choice != 9);
+        } while (choice != 10);
     }
     }
 

@@ -137,6 +137,10 @@ public class AddressBookClass {
                 System.out.println("Count by state:");
                 contactsList.stream().collect(Collectors.groupingBy(Contacts::getState, Collectors.counting())).forEach((state, count) -> System.out.println(state + ": " + count));
             }
+
+            public List<Contacts> sortContactsByName() {
+               return contactsList.stream().sorted(Comparator.comparing(Contacts::getFirstName)).collect(Collectors.toList());
+    }
 }
 
 
