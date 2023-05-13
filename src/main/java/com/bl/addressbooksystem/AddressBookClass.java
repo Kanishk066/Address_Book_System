@@ -2,27 +2,13 @@ package com.bl.addressbooksystem;
 import java.util.*;
 import java.util.stream.Collectors;
 public class AddressBookClass {
-    ArrayList<Contacts> contactList = new ArrayList<>();
+    List<Contacts> contactsList;
     Scanner sc = new Scanner(System.in);
 
-    // View persons by city using Java Streams
-    public List<Contacts> getContactsByCity(String city) {
-        return contactList.stream()
-                .filter(contact -> contact.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
+    public AddressBookClass() {
+        this.contactsList = new ArrayList<>();
     }
 
-    // View persons by state using Java Streams
-    public List<Contacts> getContactsByState(String state) {
-        return contactList.stream()
-                .filter(contact -> contact.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
-    }
-
-    public List<Contacts> searchByCityOrState(String cityOrState) {
-        return contactList.stream()
-                .filter(contact -> contact.getCity().equalsIgnoreCase(cityOrState) ||
-                        contact.getState().equalsIgnoreCase(cityOrState))
-                .collect(Collectors.toList());
-    }
     public void addContacts() {
         System.out.println("Enter the First Name:");
         String firstName = sc.next();
@@ -41,83 +27,71 @@ public class AddressBookClass {
         System.out.println("Enter the Email:");
         String email = sc.next();
 
-        Contacts newContact = new Contacts(firstName, lastName, address, city, state, zip, phoneNo , email);
+        Contacts newContact = new Contacts(firstName, lastName, address, city, state, zip, phoneNo, email);
         // Check for duplicate entry
-        boolean duplicateEntry = contactList.stream()
-                .anyMatch(contact -> contact.firstName.equalsIgnoreCase(firstName)
-                        && contact.lastName.equalsIgnoreCase(lastName));
+        boolean duplicateEntry = contactsList.stream().anyMatch(contact -> contact.getFirstName().equalsIgnoreCase(firstName) && contact.getLastName().equalsIgnoreCase(lastName));
         if (duplicateEntry) {
             System.out.println("Contact already exists!");
         } else {
-            contactList.add(newContact);
+            contactsList.add(newContact);
             System.out.println("Contact added successfully!");
         }
     }
 
     public Contacts display() {
-        System.out.println("Enter the First Name of Contact to Display:");
-        String displayFirstName = sc.next();
-        System.out.println("Enter the Last Name of Contact to Display:");
-        String displayLastName = sc.next();
-        Contacts resultContact = null;
-        // Search for contact by name
-        Optional<Contacts> optionalContact = contactList.stream()
-                .filter(contact -> contact.firstName.equalsIgnoreCase(displayFirstName)
-                        && contact.lastName.equalsIgnoreCase(displayLastName))
-                .findFirst();
-        if (optionalContact.isPresent()) {
-            resultContact = optionalContact.get();
-            System.out.println("Contact Found!");
-        } else {
-            System.out.println("Contact not found!");
+        int count = 0;
+        Contacts contacts = null;
+        for (Contacts c : contactsList) {
+            System.out.println(c.toString());
+            count++;
+            contacts = c;
         }
-        return resultContact;
+        System.out.println("Total number of contacts: " + count);
+        return contacts;
     }
+
+    // Edit a contact by name
     public void editContactByName(String firstName, String lastName) {
-        Optional<Contacts> optionalContact = contactList.stream()
-                .filter(contact -> contact.firstName.equalsIgnoreCase(firstName)
-                        && contact.lastName.equalsIgnoreCase(lastName))
-                .findFirst();
-        if (optionalContact.isPresent()){
+        Optional<Contacts> optionalContact = contactsList.stream().filter(contact -> contact.getFirstName().equalsIgnoreCase(firstName) && contact.getLastName().equalsIgnoreCase(lastName)).findFirst();
+        if (optionalContact.isPresent()) {
             Contacts contact = optionalContact.get();
-            Scanner sc = new Scanner(System.in);
             System.out.println("Enter new First Name (or press enter to skip):");
-            String newFirstName = sc.nextLine();
+            String newFirstName = sc.nextLine().trim();
             if (!newFirstName.isEmpty()) {
                 contact.setFirstName(newFirstName);
-        }
+            }
             System.out.println("Enter new Last Name (or press enter to skip):");
-            String newLastName = sc.nextLine();
+            String newLastName = sc.nextLine().trim();
             if (!newLastName.isEmpty()) {
                 contact.setLastName(newLastName);
             }
             System.out.println("Enter new Address (or press enter to skip):");
-            String newAddress = sc.nextLine();
+            String newAddress = sc.nextLine().trim();
             if (!newAddress.isEmpty()) {
                 contact.setAddress(newAddress);
             }
             System.out.println("Enter new City (or press enter to skip):");
-            String newCity = sc.nextLine();
+            String newCity = sc.nextLine().trim();
             if (!newCity.isEmpty()) {
                 contact.setCity(newCity);
             }
             System.out.println("Enter new State (or press enter to skip):");
-            String newState = sc.nextLine();
+            String newState = sc.nextLine().trim();
             if (!newState.isEmpty()) {
                 contact.setState(newState);
             }
             System.out.println("Enter new Zip Code (or press enter to skip):");
-            String newZipCode = sc.nextLine();
+            String newZipCode = sc.nextLine().trim();
             if (!newZipCode.isEmpty()) {
-                contact.setZip(sc.nextInt());
+                contact.setZip(Integer.parseInt(newZipCode));
             }
             System.out.println("Enter new Phone Number (or press enter to skip):");
-            String newPhoneNumber = sc.nextLine();
+            String newPhoneNumber = sc.nextLine().trim();
             if (!newPhoneNumber.isEmpty()) {
-                contact.setPhoneNumber(sc.nextInt());
+                contact.setPhoneNumber(Integer.parseInt(newPhoneNumber));
             }
             System.out.println("Enter new Email (or press enter to skip):");
-            String newEmail = sc.nextLine();
+            String newEmail = sc.nextLine().trim();
             if (!newEmail.isEmpty()) {
                 contact.setEmailAddress(newEmail);
             }
@@ -127,19 +101,43 @@ public class AddressBookClass {
         }
     }
 
-    // Delete a contact
-    public void deleteContact(String deleteFirstName, String deleteLastName) {
-        Optional<Contacts> optionalContact = contactList.stream()
-                .filter(contact -> contact.firstName.equalsIgnoreCase(deleteFirstName)
-                        && contact.lastName.equalsIgnoreCase(deleteLastName))
-                .findFirst();
-        if (optionalContact.isPresent()) {
-            Contacts contactToDelete = optionalContact.get();
-            contactList.remove(contactToDelete);
-            System.out.println("Contact deleted successfully.");
-        } else {
-            System.out.println("Contact not found.");
-        }
-    }
+            public void deleteContact (String firstName, String lastName){
+                boolean flag = false;
+                for (Contacts c : contactsList) {
+                    if (c.getFirstName().equalsIgnoreCase(firstName) && c.getLastName().equalsIgnoreCase(lastName)) {
+                        flag = true;
+                        contactsList.remove(c);
+                        break;
+                    }
+                }
+                if (!flag) {
+                    System.out.println("Contact not found");
+                } else {
+                    System.out.println("Contact deleted successfully");
+                }
+            }
+
+            // View persons by city using Java Streams
+            public List<Contacts> getContactsByCity(String city) {
+                return contactsList.stream().filter(contact -> contact.getCity().equalsIgnoreCase(city)).collect(Collectors.toList());
+            }
+
+            // View persons by state using Java Streams
+            public List<Contacts> getContactsByState(String state) {
+                return contactsList.stream().filter(contact -> contact.getState().equalsIgnoreCase(state)).collect(Collectors.toList());
+            }
+
+            public List<Contacts> searchByCityOrState(String cityOrState) {
+                return contactsList.stream().filter(contact -> contact.getCity().equalsIgnoreCase(cityOrState) || contact.getState().equalsIgnoreCase(cityOrState)).collect(Collectors.toList());
+            }
+
+            public void displayCountByCityAndState() {
+                System.out.println("Count by city:");
+                contactsList.stream().collect(Collectors.groupingBy(Contacts::getCity, Collectors.counting())).forEach((city, count) -> System.out.println(city + ": " + count));
+                System.out.println("Count by state:");
+                contactsList.stream().collect(Collectors.groupingBy(Contacts::getState, Collectors.counting())).forEach((state, count) -> System.out.println(state + ": " + count));
+            }
 }
+
+
 

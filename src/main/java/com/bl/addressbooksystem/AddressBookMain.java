@@ -66,7 +66,8 @@ public class AddressBookMain {
             System.out.println("5. Search CityorState");
             System.out.println("6. View by the Name of the City ");
             System.out.println("7. View by the Name of the State");
-            System.out.println("8. Exit");
+            System.out.println("8.Display Count by City or State ");
+            System.out.println("9. Exit");
 
             choice = sc.nextInt();
 
@@ -127,10 +128,11 @@ public class AddressBookMain {
                         }
                     }
                 }
-                case 8 -> System.exit(0);
+                case 8 -> addressBook.displayCountByCityAndState();
+                case 9 -> System.exit(0);
                 default -> System.out.println("Invalid choice");
             }
-        } while (choice != 8);
+        } while (choice != 9);
     }
     }
 
