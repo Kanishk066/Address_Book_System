@@ -9,7 +9,7 @@ public class AddressBookClass {
         this.contactsList = new ArrayList<>();
     }
 
-    public void addContacts() {
+    public void addContacts(Contacts contact1) {
         System.out.println("Enter the First Name:");
         String firstName = sc.next();
         System.out.println("Enter the Last Name:");
